@@ -1,0 +1,338 @@
+/* ============================================================
+   GeoMiner.AI — Premium Animations
+   ============================================================ */
+
+/* ---------- Scroll Reveal Base ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-reveal="left"] {
+  transform: translateX(-60px);
+}
+[data-reveal="right"] {
+  transform: translateX(60px);
+}
+[data-reveal="scale"] {
+  transform: scale(0.9);
+}
+[data-reveal="fade"] {
+  transform: none;
+}
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Stagger children */
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-reveal-stagger].revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Hero Glow Pulse ---------- */
+@keyframes heroPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 200, 120, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+  animation: heroPulse 6s ease-in-out infinite;
+  z-index: 0;
+  top: -100px;
+  right: -100px;
+}
+.hero-glow-2 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 120, 255, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  animation: heroPulse 8s ease-in-out infinite 2s;
+  z-index: 0;
+  bottom: -150px;
+  left: -100px;
+}
+
+/* ---------- Floating Particles Canvas ---------- */
+#particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ---------- Gradient Animated Background ---------- */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.section:first-of-type,
+header.section:first-of-type {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- Nav Glass Morph on Scroll ---------- */
+.nav {
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+}
+.nav.scrolled {
+  background: rgba(10, 10, 10, 0.85) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- Button Animations ---------- */
+.button, .w-button {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+.button::after, .w-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+.button:hover::after, .w-button:hover::after {
+  width: 300px;
+  height: 300px;
+}
+.button:hover, .w-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 200, 120, 0.3);
+}
+
+/* ---------- Card Hover Effects ---------- */
+.card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease !important;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Image Hover Zoom ---------- */
+.cover-image, .image.cover-image {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.utility-overflow-hidden:hover .cover-image,
+.utility-aspect-3x2:hover .cover-image,
+.utility-aspect-2x3:hover .cover-image {
+  transform: scale(1.05);
+}
+
+/* ---------- Stats Counter Animation ---------- */
+.stat-counter {
+  display: inline-block;
+}
+@keyframes countPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+.stat-counter.counted {
+  animation: countPulse 0.5s ease;
+}
+
+/* ---------- Heading Text Reveal ---------- */
+@keyframes textReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+.text-reveal {
+  animation: textReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-play-state: paused;
+}
+.text-reveal.revealed {
+  animation-play-state: running;
+}
+
+/* ---------- Divider Line Animation ---------- */
+.divider {
+  position: relative;
+  overflow: hidden;
+}
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 200, 120, 0.5), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ---------- Footer Link Underline ---------- */
+.footer_link {
+  position: relative;
+}
+.footer_link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.footer_link:hover::after {
+  width: 100%;
+}
+
+/* ---------- Pricing Card Glow ---------- */
+.featured-card {
+  position: relative;
+}
+.featured-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(0, 200, 120, 0.6), rgba(0, 120, 255, 0.6), rgba(0, 200, 120, 0.6));
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.featured-card:hover::before {
+  opacity: 1;
+}
+
+/* ---------- Smooth Page Load ---------- */
+@keyframes pageLoad {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+body {
+  animation: pageLoad 0.6s ease forwards;
+}
+
+/* ---------- Parallax Wrapper ---------- */
+.parallax-img {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ---------- Magnetic Cursor Effect on Buttons ---------- */
+.magnetic-btn {
+  transition: transform 0.3s ease;
+}
+
+/* ---------- Scroll Progress Bar ---------- */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00c878, #0078ff);
+  z-index: 99999;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ---------- Tilt Effect on Cards ---------- */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* ---------- Nav Link Hover ---------- */
+.fn-navbar-link-second-2 {
+  position: relative;
+  transition: color 0.3s ease;
+}
+.fn-navbar-link-second-2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #00c878;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+.fn-navbar-link-second-2:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ---------- Eyebrow Tag Animation ---------- */
+.eyebrow {
+  position: relative;
+  display: inline-block;
+}
+@keyframes eyebrowSlide {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ---------- Smooth Scroll ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Selection Color ---------- */
+::selection {
+  background: rgba(0, 200, 120, 0.3);
+  color: inherit;
+}
+
+/* ---------- Reduce Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal-stagger] > * {
+    opacity: 1;
+    transform: none;
+  }
+}
