@@ -125,29 +125,39 @@
     update();
   }
 
-  /* ---- Scroll-story: swap sticky visual per active beat ---- */
-  function initStory() {
-    var story = document.querySelector("[data-story]");
-    if (!story) return;
-    var beats = story.querySelectorAll(".story-beat");
-    var imgs = story.querySelectorAll(".story-visual img");
-    var dots = story.querySelectorAll(".story-progress span");
-    if (!beats.length || !imgs.length) return;
-    function setActive(i) {
-      imgs.forEach(function (im, k) { im.classList.toggle("active", k === i); });
-      dots.forEach(function (d, k) { d.classList.toggle("on", k === i); });
+  /* ---- Timeline: light nodes on enter + fill spine on scroll ---- */
+  function initTimeline() {
+    var tl = document.querySelector("[data-timeline]");
+    if (!tl) return;
+    var steps = tl.querySelectorAll(".t-step");
+    var fill = tl.querySelector(".timeline-fill");
+    var spine = tl.querySelector(".timeline");
+    if (!steps.length) return;
+
+    if (reduce || !("IntersectionObserver" in window)) {
+      steps.forEach(function (s) { s.classList.add("active"); });
+      if (fill) fill.style.height = "100%";
+      return;
     }
-    setActive(0);
-    if (reduce || !("IntersectionObserver" in window)) return;
+
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          var idx = parseInt(e.target.getAttribute("data-beat"), 10) || 0;
-          setActive(idx);
-        }
-      });
-    }, { threshold: 0.6, rootMargin: "-20% 0px -20% 0px" });
-    beats.forEach(function (b) { io.observe(b); });
+      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add("active"); });
+    }, { threshold: 0.35, rootMargin: "0px 0px -18% 0px" });
+    steps.forEach(function (s) { io.observe(s); });
+
+    if (!fill || !spine) return;
+    var ticking = false;
+    function update() {
+      var r = spine.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var pct = (vh * 0.5 - r.top) / r.height;
+      pct = Math.max(0, Math.min(1, pct));
+      fill.style.height = (pct * 100).toFixed(1) + "%";
+      ticking = false;
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
   }
 
   /* ---- Magnetic buttons (throttled mousemove) ---- */
@@ -248,7 +258,7 @@
     initReveal();
     initCounters();
     initParallax();
-    initStory();
+    initTimeline();
     initMagnetic();
     initAnchors();
     initParticles();
